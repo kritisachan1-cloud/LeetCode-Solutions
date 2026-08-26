@@ -1,0 +1,51 @@
+class Solution {
+public:
+    string shortestBeautifulSubstring(string s, int k) {
+
+        int n = s.size();
+
+        int l = 0;
+        int ones = 0;
+
+        string ans = "";
+
+        for (int r = 0; r < n; r++) {
+
+            // Add current character
+            if (s[r] == '1')
+                ones++;
+
+            // If we have more than k ones,
+            // move left pointer
+            while (ones > k) {
+
+                if (s[l] == '1')
+                    ones--;
+
+                l++;
+            }
+
+            // We have exactly k ones
+            if (ones == k) {
+
+                // Remove unnecessary leading zeros
+                while (s[l] == '0')
+                    l++;
+
+                string curr = s.substr(l, r - l + 1);
+
+                // Choose:
+                // 1. Shorter substring
+                // 2. If same length, lexicographically smaller
+                if (ans == "" ||
+                    curr.size() < ans.size() ||
+                    (curr.size() == ans.size() && curr < ans)) {
+
+                    ans = curr;
+                }
+            }
+        }
+
+        return ans;
+    }
+};
