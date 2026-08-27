@@ -1,0 +1,116 @@
+class Solution {
+public:
+    string lexGreaterPermutation(string s, string target) {
+
+        int freq[26] = {};
+
+        // Count characters
+        for (char c : s) {
+            freq[c - 'a']++;
+        }
+
+        string ans = "";
+
+        for (int i = 0; i < target.size(); i++) {
+
+            int x = target[i] - 'a';
+
+            // 1. Try to keep the same character
+            if (freq[x] > 0) {
+                ans += target[i];
+                freq[x]--;
+                continue;
+            }
+
+            // 2. target[i] is unavailable.
+            // Try the smallest character greater than target[i].
+            for (int c = x + 1; c < 26; c++) {
+
+                if (freq[c] > 0) {
+
+                    ans += char('a' + c);
+                    freq[c]--;
+
+                    // Fill remaining characters
+                    // in smallest order.
+                    for (int j = 0; j < 26; j++) {
+                        while (freq[j] > 0) {
+                            ans += char('a' + j);
+                            freq[j]--;
+                        }
+                    }
+
+                    return ans;
+                }
+            }
+
+            // 3. No greater character at this position.
+            // We need to backtrack.
+            while (!ans.empty()) {
+
+                char prev = ans.back();
+                ans.pop_back();
+
+                // Put previous character back
+                freq[prev - 'a']++;
+
+                int p = prev - 'a';
+
+                // Find smallest character greater than prev
+                for (int c = p + 1; c < 26; c++) {
+
+                    if (freq[c] > 0) {
+
+                        ans += char('a' + c);
+                        freq[c]--;
+
+                        // Fill remaining characters
+                        for (int j = 0; j < 26; j++) {
+                            while (freq[j] > 0) {
+                                ans += char('a' + j);
+                                freq[j]--;
+                            }
+                        }
+
+                        return ans;
+                    }
+                }
+            }
+
+            return "";
+        }
+
+        // We matched target completely.
+        // Need to backtrack because equal is not allowed.
+
+        while (!ans.empty()) {
+
+            char prev = ans.back();
+            ans.pop_back();
+
+            freq[prev - 'a']++;
+
+            int p = prev - 'a';
+
+            for (int c = p + 1; c < 26; c++) {
+
+                if (freq[c] > 0) {
+
+                    ans += char('a' + c);
+                    freq[c]--;
+
+                    for (int j = 0; j < 26; j++) {
+                        while (freq[j] > 0) {
+                            ans += char('a' + j);
+                            freq[j]--;
+                        }
+                    }
+
+                    return ans;
+                }
+            }
+        }
+
+        return "";
+    }
+};
