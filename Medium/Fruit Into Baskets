@@ -1,0 +1,90 @@
+// class Solution {
+// public:
+//     int totalFruit(vector<int>& f) {
+//         int n = f.size();
+//        int maxlen = 0;
+
+//         for(int i=0;i<n;i++){
+//                set<int> st;
+//                   for(int j=i;j<n;j++){
+//                     st.insert(f[j]);
+//                     if(st.size() <= 2)
+//                       maxlen = max(maxlen,j-i+1);
+//                     else
+//                        break;  
+//                   }
+//         }
+         
+//     return maxlen;
+//     }
+// };
+
+
+
+
+// class Solution {
+// public:
+//     int totalFruit(vector<int>& f) {
+//         int n = f.size();
+         
+//          int maxlen=0;
+//          int l=0;
+//          int r=0;
+//            map<int,int> mp;
+
+//          while(r<n){
+
+//             mp[f[r]]++;
+          
+//             if(mp.size() > 2){
+//                  while(mp.size() > 2){
+//                     mp[f[l]]--;
+//                     if(mp[f[l]] == 0){
+//                         mp.erase(f[l]);
+//                     }
+//                     l++;
+//                 }
+//             }
+//             else if(mp.size() <= 2){
+//                 maxlen = max(maxlen,r-l+1);
+//             }
+//             r++;
+//          }
+// return maxlen;
+//     }
+// };
+
+
+
+
+class Solution {
+public:
+    int totalFruit(vector<int>& f) {
+        int n = f.size();
+         
+         int maxlen=0;
+         int l=0;
+         int r=0;
+           map<int,int> mp;
+
+         while(r<n){
+
+            mp[f[r]]++;
+          
+            if(mp.size() > 2){
+                
+                    mp[f[l]]--;
+                    if(mp[f[l]] == 0)
+                        mp.erase(f[l]);
+                  
+                    l++;
+                
+            }
+            else if(mp.size() <= 2){
+                maxlen = max(maxlen,r-l+1);
+            }
+            r++;
+         }
+return maxlen;
+    }
+};
