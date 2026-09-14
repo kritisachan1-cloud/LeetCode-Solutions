@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int n = s.size();
+
+        int maxlen = 0;
+        int len=0;  // r-l+1;
+        int maxf = 0;
+        int l=0;
+        int r=0;
+
+     // unordered_map<char, int> mp;
+
+     int mp[26] = {0};
+
+       while(r<n){
+      //  mp[s[r]]++;
+
+         mp[s[r] - 'A']++;
+
+        len++;
+maxf = max(maxf, mp[s[r] - 'A']);
+
+        if(len-maxf <= k){
+                maxlen = max(maxlen,r-l+1);
+                r++;
+        }
+        else{
+                mp[s[l] - 'A']--;
+                len--;
+                l++;
+                r++;
+        }
+
+       }
+       return maxlen;
+    }
+};
