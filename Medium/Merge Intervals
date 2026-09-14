@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& nums) {
+        sort(nums.begin(),nums.end());
+
+        int n = nums.size();
+        vector<vector<int>> ans;
+
+        int ps = nums[0][0];
+        int pe = nums[0][1];
+
+
+        for(int i=1;i<n;i++){
+                int cs = nums[i][0];
+                int ce = nums[i][1];
+
+                if(cs <= pe){
+                    pe = max(ce,pe);
+                }
+
+                else{
+                    ans.push_back({ps,pe});
+                    ps = cs;
+                    pe = ce;
+                }
+              
+        }
+          ans.push_back({ps,pe});
+        return ans;
+
+    }
+};
